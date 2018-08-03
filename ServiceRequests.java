@@ -15,7 +15,7 @@ public class ServiceRequests {
 
     public ServiceRequests() {
     }
-
+    
     public void addName(String name) throws BackUpException
     {
         try {
@@ -23,13 +23,20 @@ public class ServiceRequests {
         } catch(BackUpException e){
             System.out.println("Not enough space");
         }
-
     }
 
     public void removeName(String name) throws RequestException
     {
-        if (namesList.contains(name)) {
-            namesList.remove(name);
+        name = name.toLowerCase();
+        ArrayList lowerNamesList = (ArrayList) namesList.clone();
+        ListIterator<String> iterator = lowerNamesList.listIterator();
+        while (iterator.hasNext())
+        {
+            iterator.set(iterator.next().toLowerCase());
+        }
+        if (lowerNamesList.contains(name)) {
+            int index = lowerNamesList.indexOf(name);
+            namesList.remove(index);
         } else {
             throw new RequestException("Name is not in the list.");
         }
@@ -45,6 +52,6 @@ public class ServiceRequests {
 
     @Override
     public String toString() {
-        return "namesList= " + namesList + '}';
+        return "Names\n" + namesList + '}';
     }
 }
